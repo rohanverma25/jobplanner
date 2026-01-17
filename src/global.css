@@ -1,0 +1,141 @@
+/* /frontend/src/global.css */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Tahoma', Arial, sans-serif !important;
+  background: #fff;
+  color: #1a1a1a;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* All elements inherit box-sizing for easier layout fixing */
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* Images and videos scale with container */
+img, picture, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive basic typography */
+h1 { font-size: 2.7rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.5rem; }
+p, label, input, select, textarea { font-size: 1rem; }
+
+/* Mobile breakpoints */
+@media (max-width: 900px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.45rem; }
+  h3 { font-size: 1.17rem; }
+  p, label, input, select, textarea { font-size: 0.97rem; }
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 1.28rem; }
+  h2 { font-size: 1.18rem; }
+  h3 { font-size: 1.01rem; }
+  p, label, input, select, textarea { font-size: 0.94rem; }
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+a:hover, a:active, a:focus {
+  text-decoration: underline;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: #f6fafc;
+}
+
+/* Hide horizontal overflow for all browsers */
+html {
+  overflow-x: hidden;
+}
+body {
+  overflow-x: hidden;
+}
+
+/* Native scroll for mobile */
+@media (max-width: 600px) {
+  #root {
+    padding-bottom: 34px;
+  }
+}
+
+/* NavBar responsive rules */
+.site-nav {
+  width: 100vw;
+  box-sizing: border-box;
+  background-color: #f5f7fa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  position: fixed;
+  top: 48px;
+  left: 0;
+  z-index: 1200;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+.nav-container {
+  max-width: 1280px;
+  width: 96%;
+  margin: 0 auto;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-logo { font-weight:700; font-size:1.4rem; color: #0070f3; text-decoration:none; }
+.nav-center { display:flex; flex:1; justify-content:center; align-items:center; gap: 0.6rem; }
+.nav-item { position:relative; padding:0.5rem 0.8rem; cursor:pointer; color:#222; font-size:0.95rem; border-radius:4px; }
+.nav-item a { color: inherit; text-decoration: none; }
+.nav-right { display:flex; align-items:center; gap:1.2rem; }
+
+/* Hamburger and mobile menu */
+.hamburger {
+  display:none;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+.mobile-menu {
+  display:none;
+}
+
+@media (max-width: 900px) {
+  .nav-center { display: none; }
+  .hamburger { display: block; }
+  .nav-right { gap: 0.6rem; }
+  .site-nav { height: 56px; }
+}
+
+@media (max-width: 900px) {
+  .mobile-menu {
+    display: block;
+    position: fixed;
+    top: calc(48px + 56px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    z-index: 1300;
+    max-height: calc(100vh - 120px);
+    overflow: auto;
+    padding: 0.8rem 1rem;
+  }
+  .mobile-menu .nav-item { display:block; padding:0.9rem 0.75rem; border-bottom:1px solid #f3f3f3; }
+  .mobile-sub { padding-left: 1rem; font-size: 0.95rem; }
+}
+
