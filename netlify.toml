@@ -1,0 +1,21 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+# Environment variables for local development (Netlify Dev)
+# For production, set these in Netlify Dashboard under Site settings > Environment variables
+[build.environment]
+  SMTP_HOST = "smtp.hostinger.com"
+  SMTP_PORT = "587"
+  SMTP_USER = "info@jobplanner.co.in"
+  SMTP_PASS = "Muslima@12345"
+  MAIL_FROM = "info@jobplanner.co.in"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
