@@ -223,7 +223,6 @@ export default function GenericStaticPage({
                 >
                   {rightCtaBtn+'1' || 'Add to Cart'}
                 </button> */}
-                {user ? (
                   <form
                     action={import.meta.env.VITE_CART_URL}
                     method="POST"
@@ -240,11 +239,6 @@ export default function GenericStaticPage({
                       {rightCtaBtn || "Add to Cart"}
                     </button>
                   </form>
-                ) : (
-                  <button className="jp-login-btn" onClick={onAuthClick}>
-                    Login / Register
-                  </button>
-                )}
               </div>
             </div>
           </div>
