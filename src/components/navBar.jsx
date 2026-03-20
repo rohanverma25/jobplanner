@@ -124,8 +124,7 @@ export default function NavBar({ onAuthClick, onCartClick }) {
                 </div>
               </>
             ) : (
-              ''
-              // <button className="jp-login-btn" onClick={onAuthClick}>Login / Register</button>
+              <button className="jp-login-btn" onClick={onAuthClick}>Login / Register</button>
             )}
             {/* Hamburger only on mobile */}
             <button

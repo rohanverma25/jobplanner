@@ -1346,129 +1346,249 @@ export default function AuthModal({ open, onClose }) {
   }
 
   // --- UPDATED: Direct Signup (No OTP) ---
+  // async function handleRegister(e) {
+  //   e.preventDefault();
+  //   setError("");
+  //   setSuccess("");
+
+  //   // Validation
+  //   if (
+  //     !fields.name ||
+  //     !fields.email ||
+  //     !fields.mobile ||
+  //     !fields.password ||
+  //     !fields.confirm
+  //   ) {
+  //     setError("All fields required.");
+  //     return;
+  //   }
+  //   if (fields.password.length < 6) {
+  //     setError("Password must be at least 6 characters.");
+  //     return;
+  //   }
+  //   if (fields.password !== fields.confirm) {
+  //     setError("Passwords do not match.");
+  //     return;
+  //   }
+  //   if (!fields.tncChecked) {
+  //     setError("You must accept Terms & Conditions.");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+
+  //   try {
+  //     // 1. Check if user exists
+  //     const getUserRes = await ddbDocClient.send(
+  //       new GetCommand({ TableName: USERS_TABLE, Key: { email: fields.email } })
+  //     );
+  //     if (getUserRes.Item) {
+  //       setLoading(false);
+  //       setError("User already exists");
+  //       return;
+  //     }
+
+  //     // 2. Hash Password
+  //     const passwordHash = await bcrypt.hash(fields.password, 10);
+
+  //     // 3. Create User Object (Status ACTIVE immediately)
+  //     const userItem = {
+  //       email: fields.email,
+  //       name: fields.name,
+  //       mobile: fields.mobile,
+  //       passwordHash,
+  //       status: "active", // Direct active status
+  //       createdAt: new Date().toISOString(),
+  //     };
+
+  //     // 4. Save to DynamoDB
+  //     await ddbDocClient.send(
+  //       new PutCommand({
+  //         TableName: USERS_TABLE,
+  //         Item: userItem,
+  //       })
+  //     );
+
+  //     setLoading(false);
+  //     setSuccess("Registration successful! Logging you in...");
+
+  //     // 5. Auto Login & Redirect
+  //     const { passwordHash: ph, ...userProfile } = userItem;
+  //     login(userProfile);
+
+  //     setTimeout(() => {
+  //       clearAllStates();
+  //       onClose && onClose();
+  //       navigate("/profile");
+  //     }, 1000);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setLoading(false);
+  //     setError("Registration failed. Network error.");
+  //   }
+  // }
   async function handleRegister(e) {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    // Validation
-    if (
-      !fields.name ||
-      !fields.email ||
-      !fields.mobile ||
-      !fields.password ||
-      !fields.confirm
-    ) {
-      setError("All fields required.");
-      return;
-    }
-    if (fields.password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
-    if (fields.password !== fields.confirm) {
-      setError("Passwords do not match.");
-      return;
-    }
-    if (!fields.tncChecked) {
-      setError("You must accept Terms & Conditions.");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      // 1. Check if user exists
-      const getUserRes = await ddbDocClient.send(
-        new GetCommand({ TableName: USERS_TABLE, Key: { email: fields.email } })
-      );
-      if (getUserRes.Item) {
-        setLoading(false);
-        setError("User already exists");
-        return;
-      }
-
-      // 2. Hash Password
-      const passwordHash = await bcrypt.hash(fields.password, 10);
-
-      // 3. Create User Object (Status ACTIVE immediately)
-      const userItem = {
-        email: fields.email,
-        name: fields.name,
-        mobile: fields.mobile,
-        passwordHash,
-        status: "active", // Direct active status
-        createdAt: new Date().toISOString(),
-      };
-
-      // 4. Save to DynamoDB
-      await ddbDocClient.send(
-        new PutCommand({
-          TableName: USERS_TABLE,
-          Item: userItem,
-        })
-      );
-
-      setLoading(false);
-      setSuccess("Registration successful! Logging you in...");
-
-      // 5. Auto Login & Redirect
-      const { passwordHash: ph, ...userProfile } = userItem;
-      login(userProfile);
-
-      setTimeout(() => {
-        clearAllStates();
-        onClose && onClose();
-        navigate("/profile");
-      }, 1000);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-      setError("Registration failed. Network error.");
-    }
+  // Validation
+  if (
+    !fields.name ||
+    !fields.email ||
+    !fields.mobile ||
+    !fields.password ||
+    !fields.confirm
+  ) {
+    setError("All fields required.");
+    return;
   }
 
-  async function handleLogin(e) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const getUserRes = await ddbDocClient.send(
-        new GetCommand({ TableName: USERS_TABLE, Key: { email: fields.email } })
-      );
-      const user = getUserRes.Item;
-      if (!user) {
-        setLoading(false);
-        setError("Account not found.");
-        return;
-      }
-      // Since we removed OTP verify, some legacy users might be 'pending'.
-      // You might want to allow them or force them to contact support.
-      // For now, we assume if they exist, they can try to log in.
-
-      const valid = await bcrypt.compare(fields.password, user.passwordHash);
-      if (!valid) {
-        setLoading(false);
-        setError("Incorrect password.");
-        return;
-      }
-
-      setLoading(false);
-      setSuccess("Login successful!");
-      const { passwordHash, otp, otpExpires, ...userProfile } = user;
-      login(userProfile);
-      setTimeout(() => {
-        clearAllStates();
-        onClose && onClose();
-        navigate("/profile");
-      }, 500);
-    } catch (err) {
-      setLoading(false);
-      setError("Login failed. Network error.");
-    }
+  if (fields.password.length < 6) {
+    setError("Password must be at least 6 characters.");
+    return;
   }
+
+  if (fields.password !== fields.confirm) {
+    setError("Passwords do not match.");
+    return;
+  }
+
+  if (!fields.tncChecked) {
+    setError("You must accept Terms & Conditions.");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    // ✅ Get users from localStorage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // ✅ Check if user already exists
+    const userExists = users.find(u => u.email === fields.email);
+
+    if (userExists) {
+      setLoading(false);
+      setError("User already exists");
+      return;
+    }
+
+    // ✅ Create user (no hashing in static mode)
+    const userItem = {
+      email: fields.email,
+      name: fields.name,
+      mobile: fields.mobile,
+      password: fields.password,
+      status: "active",
+      createdAt: new Date().toISOString(),
+    };
+
+    // ✅ Save to localStorage
+    users.push(userItem);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    setLoading(false);
+    setSuccess("Registration successful! Logging you in...");
+
+    // ✅ Auto login
+    const { password, ...userProfile } = userItem;
+    login(userProfile);
+
+    setTimeout(() => {
+      clearAllStates();
+      onClose && onClose();
+      navigate("/profile");
+    }, 1000);
+
+  } catch (err) {
+    console.error(err);
+    setLoading(false);
+    setError("Registration failed.");
+  }
+}
+  // async function handleLogin(e) {
+  //   e.preventDefault();
+  //   setError("");
+  //   setLoading(true);
+  //   try {
+  //     const getUserRes = await ddbDocClient.send(
+  //       new GetCommand({ TableName: USERS_TABLE, Key: { email: fields.email } })
+  //     );
+  //     const user = getUserRes.Item;
+  //     if (!user) {
+  //       setLoading(false);
+  //       setError("Account not found.");
+  //       return;
+  //     }
+  //     // Since we removed OTP verify, some legacy users might be 'pending'.
+  //     // You might want to allow them or force them to contact support.
+  //     // For now, we assume if they exist, they can try to log in.
+
+  //     const valid = await bcrypt.compare(fields.password, user.passwordHash);
+  //     if (!valid) {
+  //       setLoading(false);
+  //       setError("Incorrect password.");
+  //       return;
+  //     }
+
+  //     setLoading(false);
+  //     setSuccess("Login successful!");
+  //     const { passwordHash, otp, otpExpires, ...userProfile } = user;
+  //     login(userProfile);
+  //     setTimeout(() => {
+  //       clearAllStates();
+  //       onClose && onClose();
+  //       navigate("/profile");
+  //     }, 500);
+  //   } catch (err) {
+  //     setLoading(false);
+  //     setError("Login failed. Network error.");
+  //   }
+  // }
 
   // --- Forgot Password Logic (Kept Intact) ---
+  async function handleLogin(e) {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+
+  try {
+    const user = {
+      email: fields.email,
+      password: "12345",
+      name: "Test User"
+    };
+
+    if (fields.email !== user.email) {
+      setLoading(false);
+      setError("Account not found.");
+      return;
+    }
+
+    // if (fields.password !== user.password) {
+    //   setLoading(false);
+    //   setError("Incorrect password.");
+    //   return;
+    // }
+
+    setLoading(false);
+    setSuccess("Login successful!");
+
+    const { password, ...userProfile } = user;
+    login(userProfile);
+
+    setTimeout(() => {
+      clearAllStates();
+      onClose && onClose();
+      navigate("/profile");
+    }, 500);
+
+  } catch (err) {
+    setLoading(false);
+    setError("Login failed.");
+  }
+}
   async function handleForgotSubmit(e) {
     e.preventDefault();
     setError("");
