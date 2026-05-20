@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logos/gulflogo.webp';
 
 // Data
 const expertisePages = [
@@ -19,7 +19,7 @@ const usefulLinks = [
   { label: "Privacy Policy", to: "/privacy-policy" },
   { label: "Refund Policy", to: "/refund-policy" },
   // { label: "Disclaimer", to: "/disclaimer" },
-  
+
   { label: "Contact Us", to: "/contact" },
 ];
 
@@ -114,8 +114,8 @@ export default function Footer() {
       <div className="footer-top" style={styles.top}>
         <div className="footer-leftCol" style={styles.leftCol}>
           <span className="footer-logo-box" style={{ display: 'flex', alignItems: 'center', gap: '0.42rem' }}>
-            <img src={logo} alt="JobPlanner Logo" className="footer-logo-img" style={{ height: 80, width: 75, objectFit: 'contain' }} />
-            <span style={styles.logo}>JobPlanner</span>
+            <img src={logo} alt="gulftalent Logo" className="footer-logo-img" style={{ width: 150, marginBottom: '20', objectFit: 'contain' }} />
+            {/* <span style={styles.logo}>gulftalent</span> */}
           </span>
           <span className="footer-tagline" style={styles.tagline}>Accelerate your career, simplify your hiring</span>
         </div>
@@ -153,7 +153,7 @@ export default function Footer() {
         </div>
       </div>
       <div style={styles.bottom}>
-        © 2025 JobPlanner.co.in | All Rights Reserved.
+        © 2025 gulftalent.co | All Rights Reserved.
       </div>
       <style>
         {`

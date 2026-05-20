@@ -9,7 +9,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const saved = localStorage.getItem('jobplannerUser');
+      const saved = localStorage.getItem('gulftalentUser');
       return saved ? JSON.parse(saved) : null;
     } catch {
       return null;
@@ -18,9 +18,9 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem('jobplannerUser', JSON.stringify(user));
+      localStorage.setItem('gulftalentUser', JSON.stringify(user));
     } else {
-      localStorage.removeItem('jobplannerUser');
+      localStorage.removeItem('gulftalentUser');
     }
   }, [user]);
 

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../authContext';
 import { useCart } from '../cartContext';
-import logo from '../assets/logo.png';
+import logo from '../assets/logos/gulflogo.webp';
 
 const navMenu = [
   { label: 'Home', to: '/', sub: [] },
@@ -73,8 +73,7 @@ export default function NavBar({ onAuthClick, onCartClick }) {
           {/* Logo + Title */}
           <div className="jp-navbar-left">
             <Link to="/" className="jp-logo-link">
-              <img src={logo} alt="Job Planner Logo" className="jp-logo-img" />
-              <span className="jp-logo-txt">Job Planner</span>
+              <img src={logo} alt="Gulf Talent Logo" className="jp-logo-img" />
             </Link>
           </div>
           {/* CENTER MENU */}
@@ -169,7 +168,7 @@ export default function NavBar({ onAuthClick, onCartClick }) {
       </nav>
       {/* STYLES */}
       <style>
-{`
+        {`
 .jp-navbar {
   width: 100vw; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   position: fixed; left: 0; top: 40px; z-index: 1300;
@@ -193,7 +192,7 @@ export default function NavBar({ onAuthClick, onCartClick }) {
   
 }
 .jp-logo-link { display: flex; align-items: center; gap: 0.34rem; text-decoration: none; }
-.jp-logo-img { height: 38px; width: 38px; object-fit: contain; margin-right: 2px; }
+.jp-logo-img { width: 150px; object-fit: contain; margin-right: 2px; }
 .jp-logo-txt { font-weight: 700; font-size: 1.3rem; color: #0c0c0cff; }
 .jp-navbar-center {
   display: flex; justify-content: center; align-items: center;

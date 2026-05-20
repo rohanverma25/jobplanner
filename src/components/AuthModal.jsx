@@ -25,7 +25,7 @@
 
 // // SMTP Loader and Sender (Kept for Forgot Password functionality)
 // const SMTP_HOST = "smtp.hostinger.com";
-// const SMTP_USERNAME = "info@jobplanner.co.in";
+// const SMTP_USERNAME = "info@gulftalent.co";
 // const SMTP_PASSWORD = "Muslima@12345"; // Replace with your password
 // const SMTP_PORT = 587;
 // const MAIL_FROM = SMTP_USERNAME;
@@ -561,7 +561,7 @@
 //       );
 //       await sendEmailSmtp({
 //         to: forgotEmail,
-//         subject: "JobPlanner Password Reset OTP",
+//         subject: "gulftalent Password Reset OTP",
 //         body: `Your password reset OTP is: ${otp}`,
 //       });
 //       setForgotLoading(false);
@@ -985,7 +985,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 // SMTP Loader and Sender (Kept for Forgot Password functionality)
 const SMTP_HOST = "smtp.hostinger.com";
-const SMTP_USERNAME = "info@jobplanner.co.in";
+const SMTP_USERNAME = "info@gulftalent.co";
 const SMTP_PASSWORD = "Muslima@12345"; // Replace with your password
 const SMTP_PORT = 587;
 const MAIL_FROM = SMTP_USERNAME;
@@ -1030,7 +1030,7 @@ async function sendEmailSmtp({ to, subject, body }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ to, subject, text: body }),
     });
-    
+
     // Handle 404 or 500 (function not available or not working)
     if (res.status === 404 || res.status === 500) {
       // Try to get error message
@@ -1053,7 +1053,7 @@ async function sendEmailSmtp({ to, subject, body }) {
       } catch (readErr) {
         console.error('Could not read error response:', readErr);
       }
-      
+
       // Provide helpful error message
       if (errorMsg.includes('Missing environment variables') || errorMsg.includes('SMTP not configured')) {
         throw new Error(
@@ -1061,10 +1061,10 @@ async function sendEmailSmtp({ to, subject, body }) {
           `Please check that SMTP environment variables are set in netlify.toml or Netlify dashboard.`
         );
       }
-      
+
       throw new Error(`Email service error: ${errorMsg}`);
     }
-    
+
     if (!res.ok) {
       const errorText = await res.text();
       let errorMessage = errorText;
@@ -1081,7 +1081,7 @@ async function sendEmailSmtp({ to, subject, body }) {
   } catch (serverErr) {
     // Log the full error for debugging
     console.error('Email send error:', serverErr);
-    
+
     // Re-throw with user-friendly message
     if (serverErr.message.includes('Failed to fetch') || serverErr.message.includes('NetworkError')) {
       throw new Error(
@@ -1089,7 +1089,7 @@ async function sendEmailSmtp({ to, subject, body }) {
         'Please check that the Netlify function is running and accessible.'
       );
     }
-    
+
     throw serverErr;
   }
 }
@@ -1428,252 +1428,308 @@ export default function AuthModal({ open, onClose }) {
   //   }
   // }
   async function handleRegister(e) {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
-
-  // Validation
-  if (
-    !fields.name ||
-    !fields.email ||
-    !fields.mobile ||
-    !fields.password ||
-    !fields.confirm
-  ) {
-    setError("All fields required.");
-    return;
-  }
-
-  if (fields.password.length < 6) {
-    setError("Password must be at least 6 characters.");
-    return;
-  }
-
-  if (fields.password !== fields.confirm) {
-    setError("Passwords do not match.");
-    return;
-  }
-
-  if (!fields.tncChecked) {
-    setError("You must accept Terms & Conditions.");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    // ✅ Get users from localStorage
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    // ✅ Check if user already exists
-    const userExists = users.find(u => u.email === fields.email);
-
-    if (userExists) {
-      setLoading(false);
-      setError("User already exists");
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    // Validation
+    if (
+      !fields.name ||
+      !fields.email ||
+      !fields.mobile ||
+      !fields.password ||
+      !fields.confirm
+    ) {
+      setError("All fields are required.");
       return;
     }
-
-    // ✅ Create user (no hashing in static mode)
-    const userItem = {
-      email: fields.email,
-      name: fields.name,
-      mobile: fields.mobile,
-      password: fields.password,
-      status: "active",
-      createdAt: new Date().toISOString(),
-    };
-
-    // ✅ Save to localStorage
-    users.push(userItem);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    setLoading(false);
-    setSuccess("Registration successful! Logging you in...");
-
-    // ✅ Auto login
-    const { password, ...userProfile } = userItem;
-    login(userProfile);
-
-    setTimeout(() => {
-      clearAllStates();
-      onClose && onClose();
-      navigate("/profile");
-    }, 1000);
-
-  } catch (err) {
-    console.error(err);
-    setLoading(false);
-    setError("Registration failed.");
+    // Email Validation
+    const emailRegex =
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(fields.email)) {
+      setError("Invalid email address.");
+      return;
+    }
+    // Mobile Validation
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(fields.mobile)) {
+      setError("Enter valid 10 digit mobile number.");
+      return;
+    }
+    // Password Validation
+    if (fields.password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+    // Confirm Password
+    if (fields.password !== fields.confirm) {
+      setError("Passwords do not match.");
+      return;
+    }
+    // Terms Validation
+    if (!fields.tncChecked) {
+      setError("You must accept Terms & Conditions.");
+      return;
+    }
+    setLoading(true);
+    try {
+      // API Request
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}signup.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: fields.name,
+            email: fields.email,
+            phone: fields.mobile,
+            password: fields.password,
+          }),
+        }
+      );
+      const data = await response.json();
+      // API Error
+      if (!response.ok || data.success === false) {
+        setLoading(false);
+        setError(
+          data.message || "Registration failed."
+        );
+        return;
+      }
+      // Success
+      setSuccess(
+        data.message || "Registration successful!"
+      );
+      // Save Token
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      // Save User Data
+      if (data.user) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.user)
+        );
+        // Auto Login
+        login(data.user);
+      }
+      setLoading(false);
+      // Redirect
+      // setTimeout(() => {
+      //   clearAllStates();
+      //   onClose && onClose();
+      //   navigate("/profile");
+      // }, 1000);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      setError("Server error. Please try again.");
+    }
   }
-}
-  // async function handleLogin(e) {
+  async function handleLogin(e) {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    // VALIDATION
+    if (!fields.email || !fields.password) {
+      setError("Email and password are required.");
+      return;
+    }
+    setLoading(true);
+    try {
+      // API REQUEST
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}login.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: fields.email,
+            password: fields.password,
+          }),
+        }
+      );
+      const data = await response.json();
+      // API ERROR
+      if (!response.ok || data.success === false) {
+        setLoading(false);
+        setError(
+          data.message || "Login failed."
+        );
+        return;
+      }
+      // SUCCESS
+      setSuccess(
+        data.message || "Login successful!"
+      );
+      // SAVE TOKEN
+      if (data.token) {
+        localStorage.setItem(
+          "token",
+          data.token
+        );
+      }
+      // SAVE USER
+      if (data.user) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.user)
+        );
+        // LOGIN CONTEXT
+        login(data.user);
+      }
+      setLoading(false);
+      // REDIRECT
+      setTimeout(() => {
+        clearAllStates();
+        onClose && onClose();
+        navigate("/profile");
+      }, 500);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      setError(
+        "Login failed. Server error."
+      );
+    }
+  }
+  // async function handleForgotSubmit(e) {
   //   e.preventDefault();
   //   setError("");
-  //   setLoading(true);
+  //   setForgotLoading(true);
   //   try {
   //     const getUserRes = await ddbDocClient.send(
-  //       new GetCommand({ TableName: USERS_TABLE, Key: { email: fields.email } })
+  //       new GetCommand({ TableName: USERS_TABLE, Key: { email: forgotEmail } })
   //     );
   //     const user = getUserRes.Item;
   //     if (!user) {
-  //       setLoading(false);
-  //       setError("Account not found.");
+  //       setForgotLoading(false);
+  //       setError("Account not found");
   //       return;
   //     }
-  //     // Since we removed OTP verify, some legacy users might be 'pending'.
-  //     // You might want to allow them or force them to contact support.
-  //     // For now, we assume if they exist, they can try to log in.
-
-  //     const valid = await bcrypt.compare(fields.password, user.passwordHash);
-  //     if (!valid) {
-  //       setLoading(false);
-  //       setError("Incorrect password.");
-  //       return;
-  //     }
-
-  //     setLoading(false);
-  //     setSuccess("Login successful!");
-  //     const { passwordHash, otp, otpExpires, ...userProfile } = user;
-  //     login(userProfile);
-  //     setTimeout(() => {
-  //       clearAllStates();
-  //       onClose && onClose();
-  //       navigate("/profile");
-  //     }, 500);
+  //     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  //     await ddbDocClient.send(
+  //       new UpdateCommand({
+  //         TableName: USERS_TABLE,
+  //         Key: { email: forgotEmail },
+  //         UpdateExpression: "SET otp = :otp, otpExpires = :exp",
+  //         ExpressionAttributeValues: {
+  //           ":otp": otp,
+  //           ":exp": Date.now() + 10 * 60 * 1000,
+  //         },
+  //       })
+  //     );
+  //     await sendEmailSmtp({
+  //       to: forgotEmail,
+  //       subject: "gulftalent Password Reset OTP",
+  //       body: `Your password reset OTP is: ${otp}`,
+  //     });
+  //     setForgotLoading(false);
+  //     setSuccess("OTP sent for password reset.");
+  //     setResetStep(true);
   //   } catch (err) {
-  //     setLoading(false);
-  //     setError("Login failed. Network error.");
+  //     setForgotLoading(false);
+  //     setError("Failed to send OTP. Network error.");
   //   }
   // }
-
-  // --- Forgot Password Logic (Kept Intact) ---
-  async function handleLogin(e) {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
-
-  try {
-    const user = {
-      email: fields.email,
-      password: "12345",
-      name: "Test User"
-    };
-
-    if (fields.email !== user.email) {
-      setLoading(false);
-      setError("Account not found.");
-      return;
-    }
-
-    // if (fields.password !== user.password) {
-    //   setLoading(false);
-    //   setError("Incorrect password.");
-    //   return;
-    // }
-
-    setLoading(false);
-    setSuccess("Login successful!");
-
-    const { password, ...userProfile } = user;
-    login(userProfile);
-
-    setTimeout(() => {
-      clearAllStates();
-      onClose && onClose();
-      navigate("/profile");
-    }, 500);
-
-  } catch (err) {
-    setLoading(false);
-    setError("Login failed.");
-  }
-}
   async function handleForgotSubmit(e) {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setForgotLoading(true);
     try {
-      const getUserRes = await ddbDocClient.send(
-        new GetCommand({ TableName: USERS_TABLE, Key: { email: forgotEmail } })
-      );
-      const user = getUserRes.Item;
-      if (!user) {
-        setForgotLoading(false);
-        setError("Account not found");
-        return;
-      }
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      await ddbDocClient.send(
-        new UpdateCommand({
-          TableName: USERS_TABLE,
-          Key: { email: forgotEmail },
-          UpdateExpression: "SET otp = :otp, otpExpires = :exp",
-          ExpressionAttributeValues: {
-            ":otp": otp,
-            ":exp": Date.now() + 10 * 60 * 1000,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}forgotPassword.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        })
+          body: JSON.stringify({
+            email: forgotEmail,
+          }),
+        }
       );
-      await sendEmailSmtp({
-        to: forgotEmail,
-        subject: "JobPlanner Password Reset OTP",
-        body: `Your password reset OTP is: ${otp}`,
-      });
-      setForgotLoading(false);
-      setSuccess("OTP sent for password reset.");
-      setResetStep(true);
+      const data = await response.json();
+      if (data.success) {
+        setSuccess(data.message || "OTP sent successfully");
+        setResetStep(true);
+      } else {
+        setError(data.message || "Failed to send OTP");
+      }
     } catch (err) {
+      console.log(err);
+      setError("Network error. Please try again.");
+    } finally {
       setForgotLoading(false);
-      setError("Failed to send OTP. Network error.");
     }
   }
-
   async function handleResetSubmit(e) {
     e.preventDefault();
     setError("");
+    setSuccess("");
+    // VALIDATION
     if (
+      !resetFields.otp ||
       !resetFields.password ||
-      !resetFields.confirm ||
-      resetFields.password !== resetFields.confirm
+      !resetFields.confirm
     ) {
-      setError("Passwords must match.");
+      setError("All fields are required");
+      return;
+    }
+    if (resetFields.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+    if (resetFields.password !== resetFields.confirm) {
+      setError("Passwords do not match");
       return;
     }
     setForgotLoading(true);
     try {
-      const getUserRes = await ddbDocClient.send(
-        new GetCommand({ TableName: USERS_TABLE, Key: { email: forgotEmail } })
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}resetPassword.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({
+            email: forgotEmail,
+            otp: resetFields.otp,
+            password: resetFields.password,
+          }),
+        }
       );
-      const user = getUserRes.Item;
-      if (!user) {
-        setForgotLoading(false);
-        setError("Account not found");
-        return;
+      const text = await response.text();
+      console.log(text);
+      const data = JSON.parse(text);
+      if (data.success) {
+        setSuccess(
+          data.message ||
+          "Password reset successfully"
+        );
+        setTimeout(() => {
+          clearAllStates();
+          setTab("login");
+        }, 1500);
+      } else {
+        setError(
+          data.message ||
+          "Failed to reset password"
+        );
       }
-      if (user.otp !== resetFields.otp || Date.now() > user.otpExpires) {
-        setForgotLoading(false);
-        setError("Invalid or expired OTP");
-        return;
-      }
-      const passwordHash = await bcrypt.hash(resetFields.password, 10);
-      await ddbDocClient.send(
-        new UpdateCommand({
-          TableName: USERS_TABLE,
-          Key: { email: forgotEmail },
-          UpdateExpression: "SET passwordHash = :hash REMOVE otp, otpExpires",
-          ExpressionAttributeValues: { ":hash": passwordHash },
-        })
-      );
-      setForgotLoading(false);
-      setSuccess("Password reset successfully. You can now login.");
-      setTimeout(() => {
-        clearAllStates();
-        setTab("login");
-      }, 1400);
     } catch (err) {
+      console.log(err);
+      setError(
+        "Network error. Please try again."
+      );
+    } finally {
       setForgotLoading(false);
-      setError("Failed to reset password. Network error.");
     }
   }
 

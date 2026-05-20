@@ -13,8 +13,8 @@ export default function DigitalPortfolio({ onAuthClick }) {
         "Have you noticed that nearly every one of them would allow you to add your own URL to the online profile? Building your own website circumvents the limitation. You can literally have it your way!",
         "Nowadays, prospective employers and recruitment agency take advantages of the internet to do the initial search for job applicants’ information. They want to know more about the applicants, their skills, passion and life. Having a great website will greatly increase the chance of being selected for an in-depth interview.",
         "Passion and knowledge are two pillars for you to succeed in your career. It is also the traits most sought after by employers. Your website provides the best platform for you to show would-be employers the topics that interest you. You can create your true brand through the topics you chose, the style of writing, the design and usability of the website.",
-      
-        "Note:- In case of any Complaint / Feedback or review kindly mail us at support@jobplanner.co.in"
+
+        "Note:- In case of any Complaint / Feedback or review kindly mail us at support@gulftalent.co"
       ]}
       productHeadingText="Digital Portfolio"
       priceText="₹ 41,850.00"

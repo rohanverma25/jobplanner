@@ -42,18 +42,21 @@ async function sendOrderConfirmationEmail({ to, subject, body }) {
   }
 }
 
-const S3_BUCKET = 'jobplanner-user-resumes'; // Your bucket name
+const S3_BUCKET = 'gulftalent-user-resumes'; // Your bucket name
 const DDB_ORDERS_TABLE = 'orders';
-const MAIL_FROM = 'info@jobplanner.co.in'; // Updated to use Hostinger SMTP sender
+const MAIL_FROM = 'info@gulftalent.co'; // Updated to use Hostinger SMTP sender
 
 const PASSWORDS = {
-  gateway1: 'secretpass1',
-  gateway2: 'secretpass2',
+  gateway1: '3980',
+  gateway2: '3980',
+  gateway3: '3980',
+  gateway4: '3980',
 };
 
 // Import your QR code images
-import qr1 from '../assets/qr1.png';
-import qr2 from '../assets/qr2.png';
+import qr1 from '../assets/images/qr1.webp';
+import qr2 from '../assets/images/qr2.webp';
+import qr3 from '../assets/images/qr3.webp';
 
 const overlayStyle = {
   position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
@@ -154,7 +157,7 @@ export default function PaymentModal({ open, onClose, onOrderSuccess }) {
     onClose && onClose();
   }
 
-  const QR_IMAGES = { gateway1: qr1, gateway2: qr2 };
+  const QR_IMAGES = { gateway1: qr1, gateway2: qr1, gateway3: qr2, gateway4: qr3 };
 
   function checkPassword(pwd, gw) {
     if (pwd === PASSWORDS[gw]) {
@@ -183,51 +186,51 @@ export default function PaymentModal({ open, onClose, onOrderSuccess }) {
   }
 
   async function handleSubmit(e) {
-  e.preventDefault();
-  if (!utr.trim() || !file || !isPwdValid) {
-    setError('All fields are required and password must be valid.');
-    return;
-  }
-  setSubmitting(true);
-  setError('');
-  try {
-    console.log("Uploading screenshot to S3...");
-    const s3Key = `payment-proofs/${user.email}_${Date.now()}_${file.name}`;
-    const arrayBuffer = await file.arrayBuffer();
-    await s3Client.send(new PutObjectCommand({
-      Bucket: S3_BUCKET,
-      Key: s3Key,
-      Body: arrayBuffer,
-      ContentType: file.type,
-     // ACL: 'public-read',
-    }));
-    console.log("Upload to S3 successful");
-    const screenshotUrl = `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${s3Key}`;
+    e.preventDefault();
+    if (!utr.trim() || !file || !isPwdValid) {
+      setError('All fields are required and password must be valid.');
+      return;
+    }
+    setSubmitting(true);
+    setError('');
+    try {
+      console.log("Uploading screenshot to S3...");
+      const s3Key = `payment-proofs/${user.email}_${Date.now()}_${file.name}`;
+      const arrayBuffer = await file.arrayBuffer();
+      await s3Client.send(new PutObjectCommand({
+        Bucket: S3_BUCKET,
+        Key: s3Key,
+        Body: arrayBuffer,
+        ContentType: file.type,
+        // ACL: 'public-read',
+      }));
+      console.log("Upload to S3 successful");
+      const screenshotUrl = `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${s3Key}`;
 
-    console.log("Creating order object...");
-    const order = {
-      orderID: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-      userName: user.name,
-      userEmail: user.email,
-      userMobile: user.mobile,
-      gateway,
-      utr,
-      screenshotUrl,
-      items,
-      total,
-      status: 'Processing',
-      createdAt: new Date().toISOString(),
-    };
+      console.log("Creating order object...");
+      const order = {
+        orderID: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        userName: user.name,
+        userEmail: user.email,
+        userMobile: user.mobile,
+        gateway,
+        utr,
+        screenshotUrl,
+        items,
+        total,
+        status: 'Processing',
+        createdAt: new Date().toISOString(),
+      };
 
-    console.log("Saving order to DynamoDB...");
-    await ddbDocClient.send(new PutCommand({
-      TableName: DDB_ORDERS_TABLE,
-      Item: order,
-    }));
-    console.log("Order saved in DynamoDB.");
+      console.log("Saving order to DynamoDB...");
+      await ddbDocClient.send(new PutCommand({
+        TableName: DDB_ORDERS_TABLE,
+        Item: order,
+      }));
+      console.log("Order saved in DynamoDB.");
 
-    const itemsList = items.map(i => `${i.name} x${i.qty} @ ₹${i.price}`).join('\n');
-    const emailBody = `
+      const itemsList = items.map(i => `${i.name} x${i.qty} @ ₹${i.price}`).join('\n');
+      const emailBody = `
 Hello ${order.userName || 'Customer'},
 
 Thank you for your order ${order.orderID} placed on ${order.createdAt}.
@@ -242,32 +245,61 @@ UTR Number: ${order.utr}
 We have received your payment proof and your order is now in process.
 
 Regards,
-JobPlanner Team
+gulftalent Team
     `;
-    console.log("Sending confirmation email...");
-    await sendOrderConfirmationEmail({
-      to: order.userEmail,
-      subject: `Order Confirmation - ${order.orderID}`,
-      body: emailBody
-    });
-    console.log("Confirmation email sent!");
+      console.log("Sending confirmation email...");
+      await sendOrderConfirmationEmail({
+        to: order.userEmail,
+        subject: `Order Confirmation - ${order.orderID}`,
+        body: emailBody
+      });
+      console.log("Confirmation email sent!");
 
-    setSuccess('Order placed successfully! You will receive a confirmation email shortly.');
-    clearCart();
-    setOrderPlaced(true);
-  } catch (err) {
-    console.error("Error at step:", err);
-    setError('Network or AWS error, please try again.');
-    setSubmitting(false);
+      setSuccess('Order placed successfully! You will receive a confirmation email shortly.');
+      clearCart();
+      setOrderPlaced(true);
+    } catch (err) {
+      console.error("Error at step:", err);
+      setError('Network or AWS error, please try again.');
+      setSubmitting(false);
+    }
   }
-}
 
 
   function goToProfile() {
     onClose && onClose();
     navigate('/profile');
   }
-
+  async function initiatePayment() {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}pay.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: user.name,
+            email: user.email,
+            phone: user.mobile,
+            amount: total,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        clearCart();
+        // Redirect to payment gateway
+        window.location.href = data.payment_url;
+      } else {
+        alert(data.message || "Payment failed");
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Network error");
+    }
+  }
   return (
     <div style={overlayStyle} onClick={e => { if (e.target === e.currentTarget) closeModal(); }}>
       <div style={modalStyle}>
@@ -276,7 +308,7 @@ JobPlanner Team
         {!orderPlaced ? (
           <>
             <h2 style={{ marginBottom: '1.3rem', color: '#176c17' }}>Select Payment Gateway</h2>
-            <form onSubmit={handleSubmit}>
+            <div className="form">
               <label style={labelStyle} htmlFor="gateway">Payment Gateway</label>
               <select
                 id="gateway"
@@ -287,7 +319,9 @@ JobPlanner Team
                 required
               >
                 <option value="gateway1">Payment Gateway 1</option>
-                <option value="gateway2">Payment Gateway 2</option>
+                <option value="gateway2">QR 1</option>
+                <option value="gateway3">QR 2</option>
+                <option value="gateway4">QR 3</option>
               </select>
 
               <label style={labelStyle} htmlFor="password">Enter Gateway Password</label>
@@ -303,35 +337,66 @@ JobPlanner Team
 
               {error && <div style={errorStyle}>{error}</div>}
               {success && <div style={successStyle}>{success}</div>}
-
-              {isPwdValid && (
+              {isPwdValid && gateway === "gateway2" ? (
                 <>
-                  <img src={QR_IMAGES[gateway]} alt="Payment QR Code" style={imgStyle} />
-                  <label style={labelStyle} htmlFor="utr">Enter UTR Number</label>
-                  <input
-                    id="utr"
-                    type="text"
-                    value={utr}
-                    onChange={e => setUtr(e.target.value)}
-                    style={inputStyle}
-                    disabled={submitting}
-                    required
+                  <p className="text text-success text-center">
+                    Your password matched successfully! Thanks and Pay Now using QR
+                  </p>
+
+                  <img
+                    src={QR_IMAGES[gateway]}
+                    alt="Payment QR Code"
+                    style={imgStyle}
                   />
-                  <label style={labelStyle} htmlFor="screenshot">Upload Payment Screenshot</label>
-                  <input
-                    id="screenshot"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    disabled={submitting}
-                    required
-                  />
-                  <button type="submit" style={btnStyle} disabled={submitting}>
-                    {submitting ? 'Submitting...' : 'Submit Payment'}
+                </>
+              ) : isPwdValid && gateway === "gateway1" ? (
+                <>
+                  <button
+                    type="button"
+                    disabled={!isPwdValid || submitting}
+                    onClick={initiatePayment}
+                    style={{
+                      background: "rgb(33, 150, 243)",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "8px",
+                      fontWeight: 700,
+                      fontSize: "1.04rem",
+                      padding: "0.9rem 2.1rem",
+                      cursor: !isPwdValid ? "not-allowed" : "pointer",
+                      opacity: !isPwdValid ? 0.6 : 1,
+                      width: "100%",
+                    }}
+                  >
+                    {submitting ? "Processing..." : "Proceed To Payment"}
                   </button>
                 </>
-              )}
-            </form>
+              ) : isPwdValid && gateway === 'gateway3' ? (
+                <>
+                  <p className="text text-success text-center">
+                    Your password matched successfully! Thanks and Pay Now using QR
+                  </p>
+
+                  <img
+                    src={QR_IMAGES[gateway]}
+                    alt="Payment QR Code"
+                    style={imgStyle}
+                  />
+                </>
+              ) : isPwdValid && gateway === 'gateway4' ? (
+                <>
+                  <p className="text text-success text-center">
+                    Your password matched successfully! Thanks and Pay Now using QR
+                  </p>
+
+                  <img
+                    src={QR_IMAGES[gateway]}
+                    alt="Payment QR Code"
+                    style={imgStyle}
+                  />
+                </>
+              ) : ('')}
+            </div>
           </>
         ) : (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>

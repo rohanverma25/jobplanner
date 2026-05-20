@@ -23,8 +23,8 @@ export default function TopBar() {
     <>
       <div className="top-bar-main" style={topBarStyle}>
         Contact us now:&nbsp;
-        <span style={{ fontWeight: '500', letterSpacing: '0.02em' }}>+91-87505-27008 | support@jobplanner.co.in</span>
-       {/* <span style={{ fontWeight: '700', letterSpacing: '0.02em' }}>support@jobplanner.co.in</span> */}
+        <span style={{ fontWeight: '500', letterSpacing: '0.02em' }}>+91-87505-27008 | support@gulftalent.co</span>
+        {/* <span style={{ fontWeight: '700', letterSpacing: '0.02em' }}>support@gulftalent.co</span> */}
       </div>
       <style>
         {`

@@ -8,9 +8,9 @@
 [build.environment]
   SMTP_HOST = "smtp.hostinger.com"
   SMTP_PORT = "587"
-  SMTP_USER = "info@jobplanner.co.in"
+  SMTP_USER = "info@gulftalent.co"
   SMTP_PASS = "Muslima@12345"
-  MAIL_FROM = "info@jobplanner.co.in"
+  MAIL_FROM = "info@gulftalent.co"
 
 [[redirects]]
   from = "/*"

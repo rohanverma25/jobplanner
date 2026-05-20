@@ -1,6 +1,6 @@
 // frontend/src/data/homeData.js
 export const homeContent = {
-  title: "Welcome to Job Planner",
+  title: "Welcome to Gulf Talent",
   subtitle: "Digital solutions for smart hiring and job management.",
   description:
     "Our platform helps you accelerate recruitment, onboarding, and job scheduling efficiently and seamlessly.",

@@ -217,29 +217,27 @@ export default function GenericStaticPage({
                   {productHeadingText || "Product Title"}
                 </div>
                 <div style={priceStyle}>{priceText || "₹ 0.00"}</div>
-                {/* <button
-                  style={ctaBtnStyle}
-                  onClick={onRightCta || handleAddCart}
-                >
-                  {rightCtaBtn+'1' || 'Add to Cart'}
-                </button> */}
                 {user ? (
-                  <form
-                    action={import.meta.env.VITE_CART_URL}
-                    method="POST"
-                    target="_blank"
+                  // <form
+                  //   action={import.meta.env.VITE_CART_URL}
+                  //   method="POST"
+                  //   target="_blank"
+                  // >
+                  //   <input type="hidden" name="from" value="job" />
+                  //   <input type="hidden" name="pname" value={pageTitle} />
+                  //   <input type="hidden" name="quantity" value="1" />
+                  //   <input type="hidden" name="price" value={priceValue} />
+                  //   <input type="hidden" name="user" value={user?.name} />
+                  //   <input type="hidden" name="email" value={user?.email} />
+                  //   <input type="hidden" name="phone" value={user?.mobile} />
+                  //   <button type="submit" style={ctaBtnStyle}>
+                  //     {rightCtaBtn || "Add to Cart"}
+                  //   </button>
+                  // </form>
+                  <button style={ctaBtnStyle} onClick={onRightCta || handleAddCart}
                   >
-                    <input type="hidden" name="from" value="job" />
-                    <input type="hidden" name="pname" value={pageTitle} />
-                    <input type="hidden" name="quantity" value="1" />
-                    <input type="hidden" name="price" value={priceValue} />
-                    <input type="hidden" name="user" value={user?.name} />
-                    <input type="hidden" name="email" value={user?.email} />
-                    <input type="hidden" name="phone" value={user?.mobile} />
-                    <button type="submit" style={ctaBtnStyle}>
-                      {rightCtaBtn || "Add to Cart"}
-                    </button>
-                  </form>
+                    {rightCtaBtn || 'Add to Cart'}
+                  </button>
                 ) : (
                   <button className="jp-login-btn" onClick={onAuthClick}>
                     Login / Register

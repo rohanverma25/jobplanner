@@ -106,9 +106,9 @@ exports.handler = async (event) => {
     // Validate environment variables
     const SMTP_HOST = "smtp.hostinger.com";
     const SMTP_PORT = 587;
-    const SMTP_USER = "info@jobplanner.co.in";
+    const SMTP_USER = "info@gulftalent.co";
     const SMTP_PASS = "Muslima@12345";
-    const MAIL_FROM = "info@jobplanner.co.in";
+    const MAIL_FROM = "info@gulftalent.co";
 
     if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
       const missing = [];
@@ -236,10 +236,10 @@ exports.handler = async (event) => {
         smtpConfig:
           process.env.NODE_ENV === "development"
             ? {
-                host: SMTP_HOST_ERR,
-                port: SMTP_PORT_ERR,
-                user: process.env.SMTP_USER ? "SET" : "NOT SET",
-              }
+              host: SMTP_HOST_ERR,
+              port: SMTP_PORT_ERR,
+              user: process.env.SMTP_USER ? "SET" : "NOT SET",
+            }
             : undefined,
       }),
     };

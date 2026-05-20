@@ -15,7 +15,7 @@ export default function ExcelBasics({ onAuthClick }) {
         "These provide clear and concise instructions on using Excel for a variety of tasks, from summarizing expenses to creating a travel mileage guide to your favourite locations.",
         <b>SIX CHAPTERS</b>,
         "This book is split into six chapters, The first explains the jargon used in Excel and gets you started using workbooks. The second covers quick and easy techniques for working with cells, as well as entering, formatting and editing your information. Chapter three has useful time-savers for dealing with large amounts of data. Chapter four covers some of the more advanced features in Excel, such as calculations in Word and creating charts as well as printing out your spreadsheets. Chapter five looks at some common problems in Excel and how to resolve them. Finally, in chapter six, discover the mobile apps available for tablets and smartphones and see how you can use Excel Online from any computer.",
-        "Note:- In case of any Complaint / Feedback or review kindly mail us at support@jobplanner.co.in"
+        "Note:- In case of any Complaint / Feedback or review kindly mail us at support@gulftalent.co"
       ]}
       productHeadingText="Excel Basics"
       priceText="₹ 10,850.00"

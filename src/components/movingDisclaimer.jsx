@@ -25,7 +25,7 @@ export default function MovingDisclaimer() {
   return (
     <div style={container} className="jp-marquee-container">
       <span style={text} className="jp-marquee-text">
-        jobplanner.co.in does not guarantee any interview/meeting/discussion with any employer basis any amount of initial monetary payment by the JobPlanner. JobPlanner.co.in is not responsible for any frivolous email, sms or phone call by any fraudulent person pretending to be part of JobPlanner.co.in. Any communication from official domain of JobPlanner.co.in shall only be considered as genuine. Jobseekers are advised not to indulge in any monetary engagement with any source in the name of guaranteed interviews with employers.
+        gulftalent.co does not guarantee any interview/meeting/discussion with any employer basis any amount of initial monetary payment by the gulftalent. gulftalent.co is not responsible for any frivolous email, sms or phone call by any fraudulent person pretending to be part of gulftalent.co. Any communication from official domain of gulftalent.co shall only be considered as genuine. Jobseekers are advised not to indulge in any monetary engagement with any source in the name of guaranteed interviews with employers.
       </span>
       <style>
         {`

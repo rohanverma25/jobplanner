@@ -9,7 +9,7 @@ export function useCart() {
 export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {
     try {
-      const cartData = localStorage.getItem('jobplannerCart');
+      const cartData = localStorage.getItem('gulftalentCart');
       return cartData ? JSON.parse(cartData) : [];
     } catch {
       return [];
@@ -48,7 +48,7 @@ export function CartProvider({ children }) {
   const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   useEffect(() => {
-    localStorage.setItem('jobplannerCart', JSON.stringify(items));
+    localStorage.setItem('gulftalentCart', JSON.stringify(items));
   }, [items]);
 
   return (

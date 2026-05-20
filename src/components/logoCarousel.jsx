@@ -20,8 +20,8 @@ import logo18 from '../assets/logos/company18.png';
 import logo19 from '../assets/logos/company19.png';
 
 const allLogos = [
-  logo1,logo2,logo3,logo4,logo5,logo6,logo7,logo8,logo9,logo10,
-  logo11,logo12,logo13,logo14,logo15,logo16,logo17,logo18,logo19,
+  logo1, logo2, logo3, logo4, logo5, logo6, logo7, logo8, logo9, logo10,
+  logo11, logo12, logo13, logo14, logo15, logo16, logo17, logo18, logo19,
 ];
 
 const bgStyle = {
