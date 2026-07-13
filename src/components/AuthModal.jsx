@@ -1516,11 +1516,11 @@ export default function AuthModal({ open, onClose }) {
       }
       setLoading(false);
       // Redirect
-      // setTimeout(() => {
-      //   clearAllStates();
-      //   onClose && onClose();
-      //   navigate("/profile");
-      // }, 1000);
+      setTimeout(() => {
+        clearAllStates();
+        onClose && onClose();
+        // navigate("/profile");
+      }, 1000);
     } catch (err) {
       console.error(err);
       setLoading(false);

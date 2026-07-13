@@ -8,33 +8,49 @@ const ProfileCompletion = () => {
     price: "",
   });
 
-  const REDIRECT_URL = import.meta.env.VITE_CART_LIST_URL;
-
+  // const REDIRECT_URL = import.meta.env.VITE_CART_LIST_URL;
+  // console
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   console.log("Form Data:", formData);
-
-  //   if (!REDIRECT_URL) {
-  //     alert("Redirect URL not configured");
-  //     return;
-  //   }
-
-  //   window.location.href = REDIRECT_URL;
-  // };
+async function initiatePayment() {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}pay.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.user,
+            email: formData.email,
+            phone: formData.phone,
+            amount: formData.price,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        // Redirect to payment gateway
+        window.location.href = data.payment_url;
+      } else {
+        alert(data.message || "Payment failed");
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Network error");
+    }
+  }
 
   return (
     <div style={containerStyle}>
       <h3>Profile Completion</h3>
 
-      <form action={import.meta.env.VITE_CART_URL} style={formStyle} method="POST" target="_blank">
+      <form style={formStyle} method="POST" target="_blank">
         <input
           type="text"
           name="user"
@@ -77,7 +93,7 @@ const ProfileCompletion = () => {
         <input type="hidden" name="from" value="job" />
         <input type="hidden" name="quantity" value="1" />
         <input type="hidden" name="pname" value="Profile Completion" />
-        <button type="submit" style={buttonStyle}>
+        <button type="button" onClick={initiatePayment} style={buttonStyle}>
           Submit
         </button>
       </form>

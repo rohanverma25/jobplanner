@@ -127,8 +127,8 @@ export default function PrivacyPolicy() {
             If you have any questions or concerns regarding this privacy policy, or if you would like to exercise your rights, please contact us:
           </p>
           <div style={{ marginLeft: '1.5rem', marginBottom: '1rem', lineHeight: '1.8' }}>
-            <p><strong>Email:</strong> support@gulftalent.com</p>
-            <p><strong>Phone:</strong> +91-87505-27008</p>
+            <p><strong>Email:</strong> info@gulftalent.com</p>
+            <p><strong>Phone:</strong> </p>
             <p><strong>Mailing Address:</strong><br />
               Gulf Talent Inc.<br />
               123 Career Boulevard<br />

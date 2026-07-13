@@ -119,8 +119,8 @@ export default function Disclaimer() {
             If you have questions about this disclaimer or need assistance, please contact us:
           </p>
           <div style={{ marginLeft: '1.5rem', marginBottom: '1rem', lineHeight: '1.8' }}>
-            <p><strong>Email:</strong> support@gulftalent.com</p>
-            <p><strong>Phone:</strong> +91-87505-27008</p>
+            <p><strong>Email:</strong> info@gulftalent.com</p>
+            <p><strong>Phone:</strong> </p>
             <p><strong>Website:</strong> www.gulftalent.com</p>
             <p><strong>Location:</strong> Delhi/NCR, India</p>
           </div>

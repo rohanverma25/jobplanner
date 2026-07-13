@@ -159,8 +159,7 @@ export default function ContactUs() {
             123 Main Road, Connaught Place, Delhi - 110001
           </p>
           <p style={{ fontSize: "1rem", marginBottom: "1.1rem" }}>
-            <b>Tel:</b> +91-87505-27008 <br />
-            <b>Email:</b> <a href="mailto:support@gulftalent.co">support@gulftalent.co</a>
+            <b>Email:</b> <a href="mailto:info@gulftalent.co">info@gulftalent.co</a>
           </p>
           <div style={{ width: "100%", height: "150px", borderRadius: "9px", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,.10)", background: "#fcfcfc" }}>
             <iframe

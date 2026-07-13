@@ -19,7 +19,7 @@ export default function ProfileBooster({ onAuthClick }) {
         "Smart professionals use Profile Booster because Profile Booster is the most efficient way to reach out to the matching recruiters with which your potentials highly match.",
         <b>5. Result / Call for Job </b>,
         "If a recruiter has an opportunity which is best suiting to your qualifications, experience, salary expectations and other factors, then you will certainly get a job. But taking our service does not mean that you will get a job, it means that your resume will float all over the market and reach to the maximum numbers of recruiter. Anyone purchasing our services may not necessarily get job because of the limited offers and maximum competition in the market.",
-        "Note:- In case of any Complaint / Feedback or review kindly mail us at support@gulftalent.co"
+        "Note:- In case of any Complaint / Feedback or review kindly mail us at info@gulftalent.co"
 
       ]}
       productHeadingText="Profile Booster"

@@ -47,16 +47,16 @@ const DDB_ORDERS_TABLE = 'orders';
 const MAIL_FROM = 'info@gulftalent.co'; // Updated to use Hostinger SMTP sender
 
 const PASSWORDS = {
-  gateway1: '3980',
-  gateway2: '3980',
-  gateway3: '3980',
-  gateway4: '3980',
+  gateway1: '2911',
+  gateway2: '2911',
+  gateway3: '2911',
+  gateway4: '2911',
 };
 
 // Import your QR code images
 import qr1 from '../assets/images/qr1.webp';
 import qr2 from '../assets/images/qr2.webp';
-import qr3 from '../assets/images/qr3.webp';
+import qr3 from '../assets/qr3.png';
 
 const overlayStyle = {
   position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
@@ -318,10 +318,11 @@ gulftalent Team
                 disabled={submitting}
                 required
               >
-                <option value="gateway1">Payment Gateway 1</option>
+                {/* <option value="gateway1">Payment Gateway 1</option> */}
+                <option value="">--Select Gateway--</option>
                 <option value="gateway2">QR 1</option>
                 <option value="gateway3">QR 2</option>
-                <option value="gateway4">QR 3</option>
+                {/* <option value="gateway4">QR 3</option> */}
               </select>
 
               <label style={labelStyle} htmlFor="password">Enter Gateway Password</label>

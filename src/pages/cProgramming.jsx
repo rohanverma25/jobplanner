@@ -14,7 +14,7 @@ export default function CProgramming({ onAuthClick }) {
         <b>History of C programming</b>,
         "C is closely associated with Unix Operating system. The PDP-11 version of Unix system was written in assembly language. Assembly languages are low-level programming languages that are specific to a particular computer architecture. They are hard to write and understand. The developers of Unix Operating system (including Dennis Ritchie and Stephen C. Johnson) decided to rewrite the system in B language. However, B couldn’t suffice some of the features of PDP-11, which led to the development of C. In 1972, the development of C started on the PDP-11 Unix system. A large part of Unix was then rewritten in C. By 1973, C was powerful enough to be used in Unix Kernel. Dennis Ritchie and Stephen C. Johnson made further changes to the language for several years to make it portable in Unix Operating system.",
 
-        "Note:- In case of any Complaint / Feedback or review kindly mail us at support@gulftalent.co"
+        "Note:- In case of any Complaint / Feedback or review kindly mail us at info@gulftalent.co"
       ]}
       productHeadingText="C Programming"
       priceText="₹ 15,850.00"

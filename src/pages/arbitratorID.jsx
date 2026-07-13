@@ -15,7 +15,7 @@ export default function ArbitratorID({ onAuthClick }) {
         "Be noticed for relevant career opportunities by top recruiters.",
         "All the content for top management will be provided for the creation of strong profile and response will be depend on those content also as per market availability.",
         "Services will be delivered in 10 working days also depending upon required documents submission as per service.",
-        "Note:- In case of any Complaint / Feedback or review kindly mail us at support@gulftalent.co"
+        "Note:- In case of any Complaint / Feedback or review kindly mail us at info@gulftalent.co"
       ]}
       productHeadingText="Arbitrator ID Coroboration"
       priceText="₹ 34,350.00"

@@ -80,7 +80,7 @@ export default function RefundPolicy() {
             <li>Submit the form and wait for our team to review your request</li>
           </ul>
           <p style={{ marginBottom: '1rem', lineHeight: '1.6' }}>
-            Alternatively, you can contact our support team directly at <strong>support@gulftalent.com</strong> with your refund request and supporting documentation.
+            Alternatively, you can contact our support team directly at <strong>info@gulftalent.com</strong> with your refund request and supporting documentation.
           </p>
         </>,
         <>
@@ -155,8 +155,8 @@ export default function RefundPolicy() {
             If you have any questions about our Refund Policy or wish to request a refund, please contact our support team:
           </p>
           <div style={{ marginLeft: '1.5rem', marginBottom: '1rem', lineHeight: '1.8' }}>
-            <p><strong>Email:</strong> support@gulftalent.com</p>
-            <p><strong>Phone:</strong> +91-87505-27008</p>
+            <p><strong>Email:</strong> info@gulftalent.com</p>
+            <p><strong>Phone:</strong> </p>
             <p><strong>Hours:</strong> Monday - Friday, 9:00 AM - 6:00 PM IST</p>
             <p><strong>Location:</strong> Delhi/NCR, India</p>
           </div>
